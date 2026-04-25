@@ -1,0 +1,29 @@
+{
+	"files": [
+		{
+			"path": "static/script.js",
+			"bookmarks": [
+				{
+					"line": 20,
+					"column": 90,
+					"label": ""
+				}
+			]
+		},
+		{
+			"path": "agent.py",
+			"bookmarks": [
+				{
+					"line": 18,
+					"column": 52,
+					"label": ""
+				},
+				{
+					"line": 44,
+					"column": 55,
+					"label": ""
+				}
+			]
+		}
+	]
+}

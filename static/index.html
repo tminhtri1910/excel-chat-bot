@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel AI Chatbot</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar for File Upload -->
+        <aside class="sidebar">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <span>ExcelBot AI</span>
+            </div>
+            
+            <div class="upload-section">
+                <h3>Data Source</h3>
+                <p class="subtitle">Upload your Excel or CSV file to begin querying.</p>
+                
+                <div class="upload-area" id="upload-area">
+                    <input type="file" id="file-input" accept=".xlsx,.xls,.csv" hidden>
+                    <label for="file-input" class="upload-label">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        <span>Choose File</span>
+                    </label>
+                    <div id="file-name-display">No file selected</div>
+                </div>
+
+                <button id="upload-btn" disabled>Upload Data</button>
+                <div id="upload-status"></div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-container">
+            <div class="chat-header">
+                <h2>Chat with your Data</h2>
+                <span class="status-indicator" id="status-indicator">Awaiting Data</span>
+            </div>
+            
+            <div class="messages-area" id="messages-area">
+                <div class="message system-message">
+                    <div class="avatar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <div class="message-content">
+                        Hello! Please upload an Excel or CSV file from the sidebar to get started. I'll write Python code to query the data and answer your questions.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <form id="chat-form">
+                    <input type="text" id="chat-input" placeholder="Ask a question about your data... (e.g., 'What is the average sales in 2023?')" disabled autocomplete="off">
+                    <button type="submit" id="send-btn" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+        </main>
+    </div>
+    
+    <script src="/static/script.js"></script>
+</body>
+</html>
