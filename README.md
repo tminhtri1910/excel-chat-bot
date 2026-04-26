@@ -17,6 +17,27 @@ Excel Bot AI is a powerful, user-friendly tool that allows you to "talk" to your
 
 ---
 
+## 🔄 Developer Workflow (Technical Implementation)
+The application is architected to handle data-driven conversations through a multi-layered pipeline:
+
+### 🔹 1. API & State Layer (`main.py`)
+- **Web Framework**: **FastAPI** handles asynchronous POST requests for chat and file uploads.
+- **Session Management**: Chat history is persisted in a global `chat_histories` dictionary. To ensure consistency across OS environments, `file_path` keys are sanitized using `os.path.normpath()`.
+- **Message Schema**: Conversation turns are stored as LangChain `HumanMessage` and `AIMessage` objects to maintain compatibility with LLM providers.
+
+### 🔹 2. Data & AI Orchestration (`agent.py`)
+- **Data Engine**: **Pandas** loads spreadsheets into DataFrames. All-NaN columns are automatically dropped via `df.dropna(axis=1, how='all')` to reduce token usage.
+- **AI Agent**: Uses LangChain's **`create_pandas_dataframe_agent`** with the `openai-tools` agent type.
+- **Manual Context Injection**: Due to version-specific constraints in `langchain-experimental`, chat history is manually serialized into a text block and prepended to the user query before invocation.
+
+### 🔹 3. Execution & Security
+- **Dynamic Analysis**: The agent utilizes **`PythonAstREPLTool`** to execute AI-generated Python code locally against the in-memory DataFrame.
+- **Safety**: Code execution happens in a controlled environment where the agent only has access to the local scope of the spreadsheet data.
+
+### 🔹 4. Frontend Layer (`script.js`)
+- **Reactive UI**: Uses **Vanilla JavaScript** to handle file-selection states and asynchronous API calls.
+- **Message Rendering**: Implements custom **RegEx** parsers to convert Markdown-style bolding (`**`) and newline characters (`\n`) into safe HTML tags (`<strong>`, `<br>`).
+
 ## 🚀 Quick Start Guide
 
 ### 1. Prerequisites
@@ -31,7 +52,21 @@ Before you begin, you need to install two things:
    git clone https://github.com/tminhtri1910/excel-chat-bot.git
    cd excel-chat-bot
    ```
-3. Install the required tools:
+3. Create and activate a Virtual Environment (Recommended):
+   ```bash
+   # Create the environment
+   py -3.10 -m venv venv
+   
+   # Activate via Command Prompt
+   venv\Scripts\activate
+   
+   # OR Activate via PowerShell
+   .\venv\Scripts\Activate.ps1
+   
+   # To stop using the environment later, just type:
+   deactivate
+   ```
+4. Install the required tools:
    ```bash
    pip install -r requirements.txt
    ```
@@ -70,6 +105,27 @@ Excel Bot AI là một công cụ mạnh mẽ và dễ sử dụng, cho phép b�
 
 ---
 
+## 🔄 Luồng xử lý (Technical Workflow)
+Ứng dụng được thiết kế để xử lý các cuộc hội thoại dựa trên dữ liệu thông qua quy trình nhiều lớp:
+
+### 🔹 1. Lớp API & Trạng thái (`main.py`)
+- **Web Framework**: **FastAPI** xử lý các yêu cầu POST bất đồng bộ cho chat và tải lên tệp tin.
+- **Quản lý phiên**: Lịch sử chat được lưu trữ trong một từ điển `chat_histories` toàn cục. Để đảm bảo tính nhất quán trên các hệ điều hành, các khóa `file_path` được làm sạch bằng `os.path.normpath()`.
+- **Cấu trúc tin nhắn**: Các lượt hội thoại được lưu trữ dưới dạng đối tượng LangChain `HumanMessage` và `AIMessage` để duy trì tính tương thích với các nhà cung cấp LLM.
+
+### 🔹 2. Điều phối Dữ liệu & AI (`agent.py`)
+- **Công cụ dữ liệu**: **Pandas** tải bảng tính vào DataFrames. Các cột chứa toàn giá trị NaN sẽ tự động bị loại bỏ qua `df.dropna(axis=1, how='all')` để tiết kiệm token.
+- **AI Agent**: Sử dụng **`create_pandas_dataframe_agent`** của LangChain với loại agent `openai-tools`.
+- **Chèn ngữ cảnh thủ công**: Do các hạn chế về phiên bản trong `langchain-experimental`, lịch sử chat được tuần tự hóa thủ công thành một khối văn bản và được thêm vào trước truy vấn của người dùng trước khi gọi AI.
+
+### 🔹 3. Thực thi & Bảo mật
+- **Phân tích động**: Agent sử dụng **`PythonAstREPLTool`** để thực thi mã Python do AI tạo ra cục bộ trên đối tượng DataFrame trong bộ nhớ.
+- **An toàn**: Việc thực thi mã diễn ra trong một môi trường được kiểm soát, nơi agent chỉ có quyền truy cập vào phạm vi cục bộ của dữ liệu bảng tính.
+
+### 🔹 4. Lớp Frontend (`script.js`)
+- **Giao diện phản hồi**: Sử dụng **Vanilla JavaScript** để quản lý trạng thái chọn tệp và các cuộc gọi API bất đồng bộ.
+- **Hiển thị tin nhắn**: Triển khai các bộ phân tích **RegEx** tùy chỉnh để chuyển đổi định dạng in đậm kiểu Markdown (`**`) và các ký tự xuống dòng (`\n`) thành các thẻ HTML an toàn (`<strong>`, `<br>`).
+
 ## 🚀 Hướng dẫn bắt đầu nhanh
 
 ### 1. Chuẩn bị
@@ -84,7 +140,21 @@ Trước khi bắt đầu, bạn cần cài đặt hai phần mềm sau:
    git clone https://github.com/tminhtri1910/excel-chat-bot.git
    cd excel-chat-bot
    ```
-3. Cài đặt các thư viện cần thiết:
+3. Tạo và kích hoạt Môi trường ảo (Khuyên dùng):
+   ```bash
+   # Tạo môi trường ảo
+   py -3.10 -m venv venv
+   
+   # Kích hoạt bằng Command Prompt
+   venv\Scripts\activate
+   
+   # HOẶC Kích hoạt bằng PowerShell
+   .\venv\Scripts\Activate.ps1
+   
+   # Để dừng sử dụng môi trường ảo, chỉ cần gõ:
+   deactivate
+   ```
+4. Cài đặt các thư viện cần thiết:
    ```bash
    pip install -r requirements.txt
    ```

@@ -8,4 +8,5 @@ langchain-openai==0.1.1
 langchain-experimental==0.0.55
 python-multipart==0.0.9
 python-dotenv==1.0.1
+tabulate
 
