@@ -57,18 +57,42 @@ async def upload_file(file: UploadFile = File(...)):
         
     return {"filename": file.filename, "file_path": file_path, "message": "File uploaded successfully."}
 
+from langchain_core.messages import HumanMessage, AIMessage
+
+# In-memory storage for chat history
+# Format: { "normalized_path": [HumanMessage(...), AIMessage(...), ...] }
+chat_histories = {}
+
 @app.post("/api/chat")
 async def chat(file_path: str = Form(...), query: str = Form(...)):
     """
-    Endpoint to ask a question about the uploaded Excel file.
+    Endpoint to ask a question about the uploaded Excel file with context.
     """
-    print(f"[Server] Received query: '{query}' for file: {file_path}")
-    if not os.path.exists(file_path):
-        print(f"[Server] File not found: {file_path}")
+    # Normalize path to ensure it works as a consistent dictionary key
+    norm_path = os.path.normpath(file_path)
+    
+    print(f"[Server] Received query: '{query}' for file: {norm_path}")
+    if not os.path.exists(norm_path):
+        print(f"[Server] File not found: {norm_path}")
         raise HTTPException(status_code=404, detail="File not found. Please upload it again.")
     
-    # Run the query through our agent
-    answer = query_excel(file_path, query)
+    # Get existing history or initialize new one
+    if norm_path not in chat_histories:
+        chat_histories[norm_path] = []
+    
+    history = chat_histories[norm_path]
+    print(f"[Server] Current history size: {len(history)} messages")
+    
+    # Run the query through our agent with history
+    answer = query_excel(norm_path, query, history=history)
+    
+    # Update history (User message then AI message)
+    history.append(HumanMessage(content=query))
+    history.append(AIMessage(content=answer))
+    
+    # Keep history manageable (e.g., last 10 messages)
+    if len(history) > 10:
+        chat_histories[norm_path] = history[-10:]
     
     return {"answer": answer}
 
