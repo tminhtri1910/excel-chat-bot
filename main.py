@@ -15,26 +15,47 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 # Mount static files for the frontend
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+@app.get("/api/history")
+async def get_history(file_path: str):
+    """
+    Returns the chat history for a specific file.
+    """
+    norm_path = os.path.normpath(file_path)
+    if norm_path not in chat_histories:
+        return {"history": []}
+    
+    # Convert LangChain messages to simple JSON-friendly format
+    history = []
+    for msg in chat_histories[norm_path]:
+        history.append({
+            "role": "user" if isinstance(msg, HumanMessage) else "assistant",
+            "content": msg.content
+        })
+    return {"history": history}
+
 @app.get("/api/files")
 async def list_files():
     """
-    Returns the most recently uploaded file in the uploads directory.
+    Returns a list of all uploaded files in the uploads directory.
     """
     if not os.path.exists(UPLOAD_DIR):
-        return {"file": None}
+        return {"files": []}
     
     files = [f for f in os.listdir(UPLOAD_DIR) if f.endswith(('.xlsx', '.xls', '.csv'))]
     if not files:
-        return {"file": None}
+        return {"files": []}
     
-    # Sort by modification time to get the latest
+    # Sort by modification time to get latest first
     files.sort(key=lambda x: os.path.getmtime(os.path.join(UPLOAD_DIR, x)), reverse=True)
-    latest_file = files[0]
     
-    return {
-        "filename": latest_file,
-        "file_path": os.path.join(UPLOAD_DIR, latest_file)
-    }
+    file_list = []
+    for f in files:
+        file_list.append({
+            "filename": f,
+            "file_path": os.path.join(UPLOAD_DIR, f)
+        })
+    
+    return {"files": file_list}
 
 @app.get("/", response_class=HTMLResponse)
 async def read_index():

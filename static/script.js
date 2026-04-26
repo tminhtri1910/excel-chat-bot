@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadStatus = document.getElementById('upload-status');
     const statusIndicator = document.getElementById('status-indicator');
 
+    const fileListContainer = document.getElementById('file-list-container');
+
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
@@ -17,37 +19,102 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedFile = null;
 
     // --- Startup Logic ---
-    async function checkExistingFile() {
-        console.log('[Startup] Checking for existing files...'); //f12 to check in console
+    async function loadFileList(autoSelectLatest = true) {
+        console.log('[Startup] Loading file list...');
         try {
             const response = await fetch('/api/files');
             const data = await response.json();
-
-            if (data.filename && data.file_path) {
-                console.log(`[Startup] Found existing file: ${data.filename}`);
-                currentFilePath = data.file_path;
-                fileNameDisplay.textContent = data.filename;
-                uploadStatus.textContent = 'Existing file loaded.';
-                uploadStatus.className = 'status-success';
-                uploadBtn.textContent = 'Data Ready';
-
-                // Enable chat
-                chatInput.disabled = false;
-                sendBtn.disabled = false;
-
-                statusIndicator.textContent = 'Ready to Query';
-                statusIndicator.classList.add('ready');
-
-                addSystemMessage(`Welcome back! I've loaded the existing file: **${data.filename}**. What would you like to know?`);
+            
+            if (data.files && data.files.length > 0) {
+                renderFileList(data.files);
+                
+                if (autoSelectLatest) {
+                    const latest = data.files[0];
+                    selectFile(latest.file_path, latest.filename);
+                }
             } else {
-                console.log('[Startup] No existing files found.');
+                console.log('[Startup] No files found.');
+                statusIndicator.textContent = 'Upload a file to start';
+                statusIndicator.classList.remove('ready');
             }
         } catch (error) {
-            console.error('[Startup] Error checking existing files:', error);
+            console.error('[Startup] Error loading files:', error);
         }
     }
 
-    checkExistingFile();
+    function renderFileList(files) {
+        fileListContainer.innerHTML = '';
+        files.forEach((file, index) => {
+            const div = document.createElement('div');
+            div.className = `file-item ${currentFilePath === file.file_path ? 'active' : ''}`;
+            div.dataset.path = file.file_path;
+            div.dataset.name = file.filename;
+            
+            div.innerHTML = `
+                <input type="radio" name="file-choice" id="file-${index}" 
+                    ${currentFilePath === file.file_path ? 'checked' : ''}>
+                <label for="file-${index}" title="${file.filename}">${file.filename}</label>
+            `;
+            
+            div.addEventListener('click', () => {
+                selectFile(file.file_path, file.filename);
+            });
+            
+            fileListContainer.appendChild(div);
+        });
+    }
+
+    async function selectFile(filePath, filename) {
+        currentFilePath = filePath;
+        
+        // Update UI selection
+        document.querySelectorAll('.file-item').forEach(item => {
+            item.classList.toggle('active', item.dataset.path === filePath);
+            const radio = item.querySelector('input');
+            if (radio) radio.checked = (item.dataset.path === filePath);
+        });
+
+        uploadStatus.textContent = `Selected: ${filename}`;
+        uploadStatus.className = 'status-success';
+        uploadBtn.textContent = 'Change File';
+        
+        // Clear current messages and load history
+        messagesArea.innerHTML = '';
+        await loadChatHistory(filePath, filename);
+        
+        // Enable chat
+        chatInput.disabled = false;
+        sendBtn.disabled = false;
+        
+        statusIndicator.textContent = 'Ready to Query';
+        statusIndicator.classList.add('ready');
+        
+        console.log(`[UI] Switched context to: ${filename}`);
+    }
+
+    async function loadChatHistory(filePath, filename) {
+        try {
+            const response = await fetch(`/api/history?file_path=${encodeURIComponent(filePath)}`);
+            const data = await response.json();
+            
+            if (data.history && data.history.length > 0) {
+                data.history.forEach(msg => {
+                    if (msg.role === 'user') {
+                        addUserMessage(msg.content);
+                    } else {
+                        addSystemMessage(msg.content);
+                    }
+                });
+            } else {
+                addSystemMessage(`I'm now focused on **${filename}**. What would you like to know about this data?`);
+            }
+        } catch (error) {
+            console.error('[UI] Error loading history:', error);
+            addSystemMessage(`I've switched to **${filename}**, but couldn't load the history.`);
+        }
+    }
+
+    loadFileList();
 
     // --- File Upload Logic ---
 
@@ -118,20 +185,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (response.ok) {
-                currentFilePath = data.file_path;
                 uploadStatus.textContent = 'Upload successful!';
                 uploadStatus.className = 'status-success';
-                uploadBtn.textContent = 'Data Ready';
-
-                // Enable chat
-                chatInput.disabled = false;
-                sendBtn.disabled = false;
+                
+                // Refresh list and select new file
+                await loadFileList(false); // Reload without auto-selecting latest (we'll select the new one)
+                selectFile(data.file_path, data.filename);
+                
+                addSystemMessage(`I've analyzed **${data.filename}**. You can now ask questions about it!`);
                 chatInput.focus();
-
-                statusIndicator.textContent = 'Ready to Query';
-                statusIndicator.classList.add('ready');
-
-                addSystemMessage(`I've analyzed the structure of **${data.filename}**. What would you like to know about this data?`);
             } else {
                 throw new Error(data.detail || 'Upload failed');
             }
