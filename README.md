@@ -7,11 +7,13 @@
 ## 🌟 Overview
 Excel Bot AI is a powerful, user-friendly tool that allows you to "talk" to your Excel or CSV files. Instead of manually filtering data or writing complex formulas, you can simply ask questions in plain English or Vietnamese.
 
-### 🛠 Tech Stack (Simplified)
-- **AI Brain**: Powered by **OpenAI (GPT-4o-mini)**. It understands your questions like a human would.
-- **Data Analyst**: Uses **Python & Pandas** to scan through thousands of rows in seconds.
-- **Interface**: A modern, easy-to-use web dashboard built with **HTML, CSS, and JavaScript**.
-- **Engine**: Built with **FastAPI**, making it fast and reliable on your local machine.
+### 🛠 Detailed Tech Stack
+- **AI Orchestration**: **LangChain** – Manages the AI agent, conversation memory, and Python code generation.
+- **LLM Model**: **OpenAI GPT-4o-mini** – Provides high-speed, intelligent reasoning for data analysis.
+- **Data Engine**: **Python Pandas** – Handles complex data manipulation and spreadsheet scanning.
+- **Excel Support**: **OpenPyXL** & **xlrd** – Libraries used to support both modern `.xlsx` and legacy `.xls` files.
+- **Backend API**: **FastAPI** – A high-performance Python web framework for handling chat and file requests.
+- **Frontend**: **Vanilla JS, CSS3, & HTML5** – A custom-built, responsive dashboard with a premium dark theme.
 
 ---
 
@@ -58,11 +60,13 @@ The bot needs an "API Key" to use the OpenAI brain.
 ## 🌟 Tổng quan
 Excel Bot AI là một công cụ mạnh mẽ và dễ sử dụng, cho phép bạn "trò chuyện" trực tiếp với các tệp Excel hoặc CSV của mình. Thay vì phải lọc dữ liệu thủ công hoặc viết các công thức phức tạp, bạn chỉ cần đặt câu hỏi bằng ngôn ngữ tự nhiên.
 
-### 🛠 Công nghệ sử dụng
-- **Bộ não AI**: Sử dụng **OpenAI (GPT-4o-mini)**. Nó hiểu câu hỏi của bạn như một con người thực thụ.
-- **Phân tích dữ liệu**: Sử dụng **Python & Pandas** để quét hàng nghìn dòng dữ liệu chỉ trong vài giây.
-- **Giao diện**: Một bảng điều khiển web hiện đại, dễ sử dụng được xây dựng bằng **HTML, CSS và JavaScript**.
-- **Hệ thống**: Được xây dựng bằng **FastAPI**, giúp ứng dụng chạy nhanh và ổn định trên máy tính của bạn.
+### 🛠 Chi tiết công nghệ sử dụng
+- **Điều phối AI**: **LangChain** – Quản lý tác vụ AI, bộ nhớ cuộc hội thoại và tự động tạo mã Python.
+- **Mô hình LLM**: **OpenAI GPT-4o-mini** – Cung cấp khả năng suy luận thông minh và xử lý dữ liệu tốc độ cao.
+- **Xử lý dữ liệu**: **Python Pandas** – Xử lý các thao tác dữ liệu phức tạp và quét bảng tính.
+- **Hỗ trợ Excel**: **OpenPyXL** & **xlrd** – Các thư viện hỗ trợ cả tệp `.xlsx` hiện đại và `.xls` cũ.
+- **Hệ thống Backend**: **FastAPI** – Khung web Python hiệu suất cao để xử lý các yêu cầu chat và tệp.
+- **Giao diện Frontend**: **Vanilla JS, CSS3, & HTML5** – Giao diện tùy chỉnh, phản hồi nhanh với chủ đề tối (dark mode) cao cấp.
 
 ---
 
