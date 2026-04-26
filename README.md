@@ -46,7 +46,8 @@ The bot needs an "API Key" to use the OpenAI brain.
 
 ### 4. How to Run
 - Simply double-click the **`run.bat`** file in the folder.
-- Your browser will open automatically to `http://localhost:8000`.
+- A terminal window will open—keep it open while using the app.
+- If your browser doesn't open automatically, go to: **[http://localhost:8000](http://localhost:8000)**
 
 ---
 
@@ -96,4 +97,5 @@ Robot cần một "Mã API" để sử dụng trí tuệ nhân tạo của OpenA
 
 ### 4. Cách chạy ứng dụng
 - Chỉ cần nhấp đúp vào tệp **`run.bat`** trong thư mục.
-- Trình duyệt của bạn sẽ tự động mở trang `http://localhost:8000`.
+- Một cửa sổ terminal sẽ hiện ra—hãy giữ nó khi đang sử dụng ứng dụng.
+- Nếu trình duyệt không tự động mở, hãy truy cập: **[http://localhost:8000](http://localhost:8000)**
