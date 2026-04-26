@@ -29,7 +29,7 @@ Before you begin, you need to install two things:
 2. Download the project:
    ```bash
    git clone https://github.com/tminhtri1910/excel-chat-bot.git
-   cd "excel chat bot"
+   cd excel-chat-bot
    ```
 3. Install the required tools:
    ```bash
@@ -82,7 +82,7 @@ Trước khi bắt đầu, bạn cần cài đặt hai phần mềm sau:
 2. Tải dự án này về:
    ```bash
    git clone https://github.com/tminhtri1910/excel-chat-bot.git
-   cd "excel chat bot"
+   cd excel-chat-bot
    ```
 3. Cài đặt các thư viện cần thiết:
    ```bash
