@@ -17,7 +17,9 @@ def query_excel(file_path: str, query: str, history: list = None) -> str:
     """
     try:
         # Load the Excel file into a pandas DataFrame
-        df = pd.read_excel(file_path, usecols='A:H', skiprows=8)
+        df = pd.read_excel(file_path)
+        # Drop columns where ALL values are NaN
+        df = df.dropna(axis=1, how='all')
     except Exception as e:
         return f"Error reading Excel file: {str(e)}"
     

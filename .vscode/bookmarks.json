@@ -4,7 +4,7 @@
 			"path": "static/script.js",
 			"bookmarks": [
 				{
-					"line": 20,
+					"line": 62,
 					"column": 90,
 					"label": ""
 				}
@@ -14,13 +14,18 @@
 			"path": "agent.py",
 			"bookmarks": [
 				{
-					"line": 18,
+					"line": 27,
 					"column": 52,
 					"label": ""
-				},
+				}
+			]
+		},
+		{
+			"path": "main.py",
+			"bookmarks": [
 				{
-					"line": 44,
-					"column": 55,
+					"line": 82,
+					"column": 59,
 					"label": ""
 				}
 			]
