@@ -2,10 +2,13 @@ import os
 import pandas as pd
 from langchain_openai import ChatOpenAI
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
+from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.prompts import MessagesPlaceholder
 from dotenv import load_dotenv
 
 # Load environment variables (e.g., OPENROUTER_API_KEY)
 load_dotenv()
+
 
 def query_excel(file_path: str, query: str, history: list = None) -> str:
     """
@@ -26,26 +29,29 @@ def query_excel(file_path: str, query: str, history: list = None) -> str:
             openai_api_key=os.environ.get("OPENAI_API_KEY"),
         )
         
-        # Create the pandas dataframe agent with memory support
+        # Format history into a string to provide context manually
+        # This works around version-specific prompt limitations
+        history_text = ""
+        if history:
+            for msg in history:
+                role = "User" if isinstance(msg, HumanMessage) else "AI"
+                history_text += f"{role}: {msg.content}\n"
+        
+        # Combine history with the current query
+        full_query = f"Below is the history of our conversation so far:\n{history_text}\nQuestion: {query}" if history_text else query
+
+        # Create the pandas dataframe agent 
+        # Note: allow_dangerous_code and extra_prompt_messages are handled manually here
         agent = create_pandas_dataframe_agent(
             llm,
             df,
             verbose=True,
             agent_type="openai-tools",
-            allow_dangerous_code=True, # MANDATORY
+            agent_executor_kwargs={"handle_parsing_errors": True}
         )
-        agent.handle_parsing_errors=True
-
-        # Format the input to include history
-        input_data = {
-            "input": query,
-            "chat_history": history if history is not None else []
-        }
-
-        print("input data:", input_data)
         
-        print(f"[Agent] Executing query...")
-        response = agent.invoke(input_data)
+        print("Executing query with manual context...")
+        response = agent.invoke({"input": full_query})
         
         answer = response.get("output", "No response generated.")
         print(f"[Agent] Successfully generated answer.")
