@@ -28,7 +28,7 @@ Before you begin, you need to install two things:
 1. Open your terminal (type `cmd` in your Windows search bar).
 2. Download the project:
    ```bash
-   git clone https://github.com/your-username/excel-chat-bot.git
+   git clone https://github.com/tminhtri1910/excel-chat-bot.git
    cd "excel chat bot"
    ```
 3. Install the required tools:
@@ -39,7 +39,7 @@ Before you begin, you need to install two things:
 ### 3. API Key Configuration
 The bot needs an "API Key" to use the OpenAI brain.
 1. Get your key from [OpenAI Dashboard](https://platform.openai.com/api-keys).
-2. In the project folder, find the file named **`.env`**.
+2. In the project folder, find the file, or create a new file named **`.env`**.
 3. Open it with Notepad and set your key:
    ```env
    OPENAI_API_KEY=your_actual_key_here
