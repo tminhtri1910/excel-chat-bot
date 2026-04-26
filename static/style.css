@@ -218,6 +218,7 @@ button:disabled {
     border-radius: 12px;
     line-height: 1.6;
     font-size: 0.95rem;
+    white-space: pre-wrap; /* Preserves newlines and wraps text */
 }
 
 .system-message .message-content {

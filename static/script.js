@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/api/files');
             const data = await response.json();
-            
+
             if (data.filename && data.file_path) {
                 console.log(`[Startup] Found existing file: ${data.filename}`);
                 currentFilePath = data.file_path;
@@ -30,14 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 uploadStatus.textContent = 'Existing file loaded.';
                 uploadStatus.className = 'status-success';
                 uploadBtn.textContent = 'Data Ready';
-                
+
                 // Enable chat
                 chatInput.disabled = false;
                 sendBtn.disabled = false;
-                
+
                 statusIndicator.textContent = 'Ready to Query';
                 statusIndicator.classList.add('ready');
-                
+
                 addSystemMessage(`Welcome back! I've loaded the existing file: **${data.filename}**. What would you like to know?`);
             } else {
                 console.log('[Startup] No existing files found.');
@@ -200,11 +200,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function addUserMessage(text) {
         const div = document.createElement('div');
         div.className = 'message user-message';
+
+        const formattedText = escapeHTML(text).replace(/\n/g, '<br>');
+
         div.innerHTML = `
             <div class="avatar">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
-            <div class="message-content">${escapeHTML(text)}</div>
+            <div class="message-content">${formattedText}</div>
         `;
         messagesArea.appendChild(div);
         scrollToBottom();
@@ -214,8 +217,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement('div');
         div.className = 'message system-message';
 
-        // Simple markdown parsing for bold text
-        const formattedText = escapeHTML(text).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        // 1. Escape HTML to prevent XSS
+        // 2. Convert **bold** to <strong>
+        // 3. Convert \n to <br> for line breaks
+        const formattedText = escapeHTML(text)
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
 
         div.innerHTML = `
             <div class="avatar">
