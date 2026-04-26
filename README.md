@@ -7,6 +7,13 @@
 ## 🌟 Overview
 Excel Bot AI is a powerful, user-friendly tool that allows you to "talk" to your Excel or CSV files. Instead of manually filtering data or writing complex formulas, you can simply ask questions in plain English or Vietnamese.
 
+### 💎 Key Features & Why it's Powerful
+- **🚀 Handles Massive Files**: Unlike other AI tools that try to "read" the entire file (and fail on large ones), this app uses **Local Code Generation**. The AI writes Python code to find the answer, allowing you to query datasets with **hundreds of thousands of rows** instantly.
+- **🛡️ Privacy First**: Your raw spreadsheet data **never leaves your machine**. Only your questions and column headers are sent to the AI.
+- **💡 Smart Context**: The bot remembers your previous questions, allowing for complex follow-up conversations.
+- **📂 Multi-File Manager**: Easily switch between multiple uploaded files with a single click.
+- **💰 Cost Efficient**: Because the AI only writes the code and doesn't "read" every row, you save significantly on API costs.
+
 ### 🛠 Detailed Tech Stack
 - **AI Orchestration**: **LangChain** – Manages the AI agent, conversation memory, and Python code generation.
 - **LLM Model**: **OpenAI GPT-4o-mini** – Provides high-speed, intelligent reasoning for data analysis.
@@ -43,7 +50,7 @@ The application is architected to handle data-driven conversations through a mul
 ### 1. Prerequisites
 Before you begin, you need to install two things:
 1. **Git**: [Download Git here](https://git-scm.com/downloads). (Select the "Windows" version). This allows you to download and update the app easily.
-2. **Python**: [Download Python 3.10+ here](https://www.python.org/downloads/). **IMPORTANT:** During installation, check the box that says **"Add Python to PATH"**.
+2. **Python**: [Download Python 3.10 here](https://www.python.org/downloads/windows/). **IMPORTANT:** During installation, check the box that says **"Add Python to PATH"**.
 
 ### 2. Installation
 1. Open your terminal (type `cmd` in your Windows search bar).
@@ -95,6 +102,13 @@ The bot needs an "API Key" to use the OpenAI brain.
 ## 🌟 Tổng quan
 Excel Bot AI là một công cụ mạnh mẽ và dễ sử dụng, cho phép bạn "trò chuyện" trực tiếp với các tệp Excel hoặc CSV của mình. Thay vì phải lọc dữ liệu thủ công hoặc viết các công thức phức tạp, bạn chỉ cần đặt câu hỏi bằng ngôn ngữ tự nhiên.
 
+### 💎 Điểm nổi bật & Tại sao nó mạnh mẽ
+- **🚀 Xử lý tệp siêu lớn**: Không giống như các công cụ AI khác cố gắng "đọc" toàn bộ tệp (và thường thất bại với tệp lớn), ứng dụng này sử dụng công nghệ **Tạo mã cục bộ**. AI viết mã Python để tìm câu trả lời, cho phép bạn truy vấn các bộ dữ liệu hàng **trăm nghìn dòng** ngay lập tức.
+- **🛡️ Bảo mật hàng đầu**: Dữ liệu bảng tính thô của bạn **không bao giờ rời khỏi máy tính**. Chỉ có câu hỏi và tên các tiêu đề cột được gửi đến AI.
+- **💡 Ngữ cảnh thông minh**: Robot ghi nhớ các câu hỏi trước đó của bạn, cho phép thực hiện các cuộc hội thoại tiếp nối phức tạp.
+- **📂 Quản lý đa tệp**: Dễ dàng chuyển đổi giữa nhiều tệp đã tải lên chỉ với một cú nhấp chuột.
+- **💰 Tiết kiệm chi phí**: Vì AI chỉ viết mã và không phải "đọc" từng dòng dữ liệu, bạn sẽ tiết kiệm được đáng kể chi phí API.
+
 ### 🛠 Chi tiết công nghệ sử dụng
 - **Điều phối AI**: **LangChain** – Quản lý tác vụ AI, bộ nhớ cuộc hội thoại và tự động tạo mã Python.
 - **Mô hình LLM**: **OpenAI GPT-4o-mini** – Cung cấp khả năng suy luận thông minh và xử lý dữ liệu tốc độ cao.
@@ -131,7 +145,7 @@ Excel Bot AI là một công cụ mạnh mẽ và dễ sử dụng, cho phép b�
 ### 1. Chuẩn bị
 Trước khi bắt đầu, bạn cần cài đặt hai phần mềm sau:
 1. **Git**: [Tải Git tại đây](https://git-scm.com/downloads). (Chọn bản cho Windows). Phần mềm này giúp bạn tải và cập nhật ứng dụng dễ dàng.
-2. **Python**: [Tải Python 3.10+ tại đây](https://www.python.org/downloads/). **QUAN TRỌNG:** Trong lúc cài đặt, hãy tích vào ô **"Add Python to PATH"**.
+2. **Python**: [Tải Python 3.10 tại đây](https://www.python.org/downloads/windows/). **QUAN TRỌNG:** Trong lúc cài đặt, hãy tích vào ô **"Add Python to PATH"**.
 
 ### 2. Cài đặt
 1. Mở cửa sổ terminal (Gõ `cmd` vào thanh tìm kiếm Windows).
